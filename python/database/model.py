@@ -32,9 +32,7 @@ class Model(dict):
         super(Model, self).__init__(obj)
         # 20131018 yugang update 如果在构造成传入字典，将它们中属于表字段的标识为更改
         # self._changed = set()
-        self._changed = set([e for e in obj if e in self._fields
-                             ]) if obj else set()
-
+        self._changed = set([e for e in obj if e in self._fields]) if obj else set() 
     def dbserver(self, **kargs):
         db, group = self.get_dbase(**kargs), self.get_db_group(**kargs)
         return self.dpool.get_server(db, group, self.ismaster)
@@ -140,7 +138,7 @@ class Model(dict):
         self.db.execute(sql)
         if self._pk and (self._pk not in self or not self[self._pk]):
             self[self._pk] = self.db.lastrowid
-    # return self 
+    # return self
     # 20131018 yugang update
         return self.db.affected_rows()
 
@@ -271,19 +269,18 @@ class Model(dict):
     def insert_sql(self):
         obj = self
         table = self.get_table(**obj)
-        domains = ','.join(["`%s`" % (e, ) for e in obj
+        domains = ','.join(["`%s`" % (e, )
+                            for e in obj
                             if e in self._fields and obj[e] is not None])
-        values = ','.join(["'%s'" % (MySQLdb.escape_string(str(obj[e].encode(
-            'utf-8')) if isinstance(obj[e], unicode) else str(obj[
-                e])), ) for e in obj if e in self._fields and obj[e] is
-                           not None])
+        values = ','.join(["'%s'" % (MySQLdb.escape_string(str(obj[e].encode('utf-8')) if isinstance(obj[e], unicode) else str(obj[e])), )
+                           for e in obj if e in self._fields and obj[e] is not None])
         return "INSERT INTO %s (%s) VALUES (%s)" % (table, str(domains),
                                                     str(values))
 
     def insert_batch(self, sql, values):
         '''
         批量导入操作
-        
+
         sql = "insert into bk_comment(title) values(%s)"
 
         values = [('ninini'), ('koko')]

@@ -1,0 +1,3 @@
+[submodule "ipython_notebooks/deepdream"]
+	path = ipython_notebooks/deepdream
+	url = git@github.com:google/deepdream.git

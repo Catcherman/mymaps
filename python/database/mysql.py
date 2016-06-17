@@ -83,13 +83,14 @@ class Mysql(object):
             raise Exception("cannot execute[%s] on slave" % (sql, ))
         start = time.time()
         self.auto_reconnect()
-       #if options.debug:
-       #    logging.info('%s,%s', sql, values)
+        # if options.debug:
+        #     logging.info('%s,%s', sql, values)
         if sql.upper().startswith("SELECT"):
             result = self.cursor.execute(sql, values)
         else:
             result = self.cursor.execute(sql)
         self.update_stat((time.time() - start) * 1000, sql, values)
+        # todo ?? result
         return True
 
     def update_stat(self, t, sql, values):
@@ -140,8 +141,7 @@ class Mysql(object):
         """
         merge subsqls
         """
-        return "%s AND %s" % (where, cond) if where and cond else (where or
-                                                                   cond)
+        return "%s AND %s" % (where, cond) if where and cond else (where or cond)
 
     def rows(self):
         return self.cursor.fetchall()
