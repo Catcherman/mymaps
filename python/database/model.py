@@ -296,7 +296,7 @@ class Model(dict):
                 count += 1
                 cursor.executemany(sql, temp_values)
                 self.db.conn.commit()
-        except Exception, e:
+        except Exception as e:
             logging.error("------%s" % str(e))
         finally:
             if cursor:
